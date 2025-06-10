@@ -1,4 +1,4 @@
-# Generate Wordlist Tool
+# Passpwn - Generate Password Tool
 
 A powerful Python CLI utility to craft highly customized password wordlists from a JSON configuration.
 
