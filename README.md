@@ -26,6 +26,20 @@ Ideal for:
 
 ## 🔧 Configuration JSON Explained
 
+How the JSON Works: This configuration file acts as a blueprint for the entire generation process. Each key corresponds to a specific building block:
+
+- base_words: your starting tokens (company names, ‘admin’, or usernames) injected via {custom_word}.
+
+- case_variants: declares how to alter letter casing ({word_lc}, {word_uc}, {word_tc}).
+
+- separators, decorations, seasons, quarters, and patterns work in tandem to compose passwords by replacing placeholders like {year}, {season}, and {special_chars} with actual values, iterating through every possible combination.
+
+- transformations defines letter→leet mappings; with --leet, the script exhaustively applies all substitution permutations for each character in every generated password.
+
+- policy_requirements enforces complexity rules (uppercase, digit, special), pruning candidates that fail to meet your security policy.
+
+Edit these arrays and objects to adapt the wordlist generator to any corporate naming convention or password rotation scheme.
+
 Below is the base configuration json file which is used to define all the rules and patterns:
 
 ```jsonc
@@ -121,6 +135,16 @@ python3 generate_wordlist.py --words admin --leet --enforce-policy --output admi
 ```bash
 python3 generate_wordlist.py --input employees.txt --years 1 --output employees_list.txt
 ```
+
+## Tips & Best Practices
+
+- Tune patterns: remove unused sections to speed up generation.
+
+- Limit years: fewer --years reduces combinatorial size.
+
+- Filter early: use --minlen/--maxlen and --enforce-policy to prune.
+
+- Combine wordlists: merge with common passwords for hybrid attacks.
 
 
 
