@@ -30,6 +30,8 @@
       "{season}",
       "{season}{year}",
       "{season}{year}{special_chars}",
+      "{season}{num}",
+      "{season}{num}{special_chars}",
       "{custom_word}{year}",
       "{custom_word}{num_seq}",
       "{custom_word}{num_seq}{special_chars}",
