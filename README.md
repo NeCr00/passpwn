@@ -160,7 +160,7 @@ cd generate-wordlist
 ```bash
 python3 passpwn.py \
   --config config.json \
-  --words navarino,admin \
+  --words root,admin \
   --years 3 \
   --minlen 8 --maxlen 16 \
   --leet \
