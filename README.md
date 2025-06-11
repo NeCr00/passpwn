@@ -158,7 +158,7 @@ cd generate-wordlist
 ## Quick Start Example
 
 ```bash
-python3 generate_wordlist.py \
+python3 passpwn.py \
   --config config.json \
   --words navarino,admin \
   --years 3 \
@@ -181,13 +181,13 @@ python3 generate_wordlist.py \
 **Admin-focused list**
 
 ```bash
-python3 generate_wordlist.py --words admin --leet --enforce-policy --output admin_pwds.txt
+python3 passpwn.py --words admin --leet --enforce-policy --output admin_pwds.txt
 ```
 
 **Employee names from file, no leet**
 
 ```bash
-python3 generate_wordlist.py --input employees.txt --years 1 --output employees_list.txt
+python3 passpwn.py --input usernames.txt --years 2 --output employees_list.txt
 ```
 
 
@@ -196,6 +196,7 @@ python3 generate_wordlist.py --input employees.txt --years 1 --output employees_
 
 * Tune your `patterns`: Keep only those relevant for your target environment to avoid unnecessary combinations.
 * Use smaller `--years` to reduce output size.
+* The `--years` option appends the full years (eg. 2025) in the password list. For shorter versions of years you can define it in `num_seq` array of json.
 * Filter early: Apply `--minlen`, `--maxlen`, and `--enforce-policy` to produce cleaner results.
 * Combine with known wordlists: You can merge Passpwn’s output with standard password lists for hybrid attacks.
 * **Test the results**: Use in tools like Hydra, Ncrack, or Burp Suite.
