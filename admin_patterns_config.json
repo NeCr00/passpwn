@@ -1,0 +1,49 @@
+{
+  "base_words": ["{custom_word}"],
+  "case_variants": ["{word_lc}", "{word_uc}", "{word_tc}"],
+  "separators": ["", "-", "_"],
+  "decorations": {
+    "special_chars": ["!", "@", "#", "$"],
+    "num_seq": ["123", "321", "1", "1234", "25","24","23"]
+  },
+  "seasons": ["Spring", "Summer", "Fall", "Winter"],
+  "quarters": ["Q1", "Q2", "Q3", "Q4","q1","q2","q3","q4"],
+  "patterns": {
+    "simple": [
+      "{custom_word}",
+      "{custom_word}{special_chars}",
+      "{custom_word}{num_seq}",
+      "{custom_word}{num_seq}{special_chars}",
+      "{custom_word}{special_chars}"
+    ],
+    "year": [
+      "{custom_word}{year}",
+      "{custom_word}{year}{special_chars}",
+      "{custom_word}{num_seq}",
+      "{custom_word}{num_seq}{special_chars}"
+    ],
+    "quarter": [
+      "{custom_word}{quarter}",
+      "{custom_word}{quarter}{special_chars}"
+    ],
+    "seasonal": [
+      "{season}",
+      "{season}{year}",
+      "{season}{year}{special_chars}",
+      "{custom_word}{year}",
+      "{custom_word}{num_seq}",
+      "{custom_word}{num_seq}{special_chars}",
+      "{custom_word}{year}{special_chars}"
+    ]
+  },
+  "transformations": {
+    "a": ["@", "4"],
+    "b": ["8"],
+    "e": ["3"],
+    "i": ["1", "!"],
+    "o": ["0"],
+    "s": ["$", "5"],
+    "t": ["7"]
+  },
+  "policy_requirements": ["uppercase", "number", "special"]
+}
