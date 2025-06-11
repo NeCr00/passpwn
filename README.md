@@ -181,13 +181,13 @@ python3 passpwn.py \
 **Admin-focused list**
 
 ```bash
-python3 passpwn.py --words admin --leet --enforce-policy --output admin_pwds.txt
+python3 passpwn.py --config admin_comm_patterns.json --words admin --leet --enforce-policy --output admin_pwds.txt
 ```
 
 **Employee names from file, no leet**
 
 ```bash
-python3 passpwn.py --input usernames.txt --years 2 --output employees_list.txt
+python3 passpwn.py --config users_comm_patterns.json --words usernames.txt --years 2 --output employees_list.txt
 ```
 
 
