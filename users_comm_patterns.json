@@ -1,0 +1,43 @@
+{
+  "base_words": ["{custom_word}"],
+  "case_variants": ["{word_lc}", "{word_tc}"],
+  "separators": ["", "-", "_"],
+  "decorations": {
+    "special_chars": ["!", "@", "#", "$"],
+    "num_seq": ["1", "123", "24", "25", "23"]
+  },
+  "seasons": ["Spring", "Summer", "Fall", "Winter"],
+  "quarters": [],
+  "patterns": {
+    "simple": [
+      "{custom_word}",
+      "{custom_word}{num_seq}",
+      "{custom_word}{special_chars}",
+      "{custom_word}{num_seq}{special_chars}",
+      "{custom_word}{special_chars}{num_seq}"
+    ],
+    "year": [
+      "{custom_word}{year}",
+      "{custom_word}{year}{special_chars}",
+      "{custom_word}{separators}{year}",
+      "{custom_word}{year}{num_seq}"
+    ],
+    "seasonal": [
+      "{season}",
+      "{season}{year}",
+      "{season}{num_seq}",
+      "{season}{year}{special_chars}",
+      "{season}{num_seq}{special_chars}"
+    
+    ]
+  },
+  "transformations": {
+    "a": ["@", "4"],
+    "e": ["3"],
+    "i": ["1"],
+    "o": ["0"],
+    "s": ["$", "5"],
+    "t": ["7"]
+  },
+  "policy_requirements": ["uppercase", "number", "special"]
+}
