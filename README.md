@@ -1,70 +1,84 @@
-# Passpwn - Generate Password Tool
+# Passpwn - Password Wordlist Generator
 
-A powerful Python CLI utility to craft highly customized password wordlists from a JSON configuration.
+**Passpwn** is a powerful and flexible Python CLI tool for generating customized password wordlists based on a configurable JSON template.
 
-Ideal for:
-- **Web App Testing**: Form logins, APIs (Hydra, Burp Intruder, ffuf)  
-- **Service Brute Forcing**: SSH, RDP, SMTP (ncrack, Medusa)  
-- **Internal Assessments**: Employee or product-named schemes
+It is designed for:
 
-
-## 🧩 How It Works
-
-1. **Load Config**  
-   Read a JSON file that defines patterns, decorations, and leet transformations in order to generate the password list  
-2. **Base Words**  
-   Supply company names, admin keywords, or usernames. 
-3. **Pattern Expansion**  
-   Combine elements (years, seasons, quarters, special chars, numeric sequences) into template-based passwords.  
-4. **Leet Transforms**  
-   Optionally create all combinations of character substitutions (e.g., `a → @/4`). Leet configuration is done through .json config file  
-5. **Policy & Length Filters**  
-   Enforce uppercase, numbers, special chars. Also filter the passwords based on specific length
-6. **Deduplicate & Output**  
-   Preserve insertion order; output to stdout or file.
+* **Web Application Testing**: Form logins, APIs (Hydra, Burp Intruder, ffuf)
+* **Service Brute Forcing**: SSH, RDP, SMTP (ncrack, Medusa)
+* **Internal Assessments**: Targeted password lists based on company naming conventions, admin patterns, employee names, and password rotation schemes
 
 
-## 🔧 Configuration JSON Explained
 
-How the JSON Works: This configuration file acts as a blueprint for the entire generation process. Each key corresponds to a specific building block:
+## 🛠 How It Works
 
-- base_words: your starting tokens (company names, ‘admin’, or usernames) injected via {custom_word}.
+Passpwn automates the generation of passwords using patterns and rules you define in a configuration file:
 
-- case_variants: declares how to alter letter casing ({word_lc}, {word_uc}, {word_tc}).
+1. **Load Config**
+   Reads a `config.json` file which defines patterns, decorations, transformations, and constraints for password generation.
 
-- separators, decorations, seasons, quarters, and patterns work in tandem to compose passwords by replacing placeholders like {year}, {season}, and {special_chars} with actual values, iterating through every possible combination.
+2. **Base Words**
+   You provide a list of base words — typically company names, usernames, or admin keywords — via CLI or input file.
 
-- transformations defines letter→leet mappings; with --leet, the script exhaustively applies all substitution permutations for each character in every generated password.
+3. **Pattern Expansion**
+   Passwords are constructed by combining placeholders such as `{year}`, `{season}`, `{quarter}`, `{special_chars}`, `{num_seq}` — based on your config.
 
-- policy_requirements enforces complexity rules (uppercase, digit, special), pruning candidates that fail to meet your security policy.
+4. **Leetspeak Transformations**
+   Optionally applies configurable leetspeak substitutions (e.g., `a → @/4`) to generate even more variants.
 
-Edit these arrays and objects to adapt the wordlist generator to any corporate naming convention or password rotation scheme.
+5. **Policy & Length Filters**
+   Optionally enforce password policy (uppercase, numbers, special characters), and filter by min/max password length.
 
-Below is the base configuration json file which is used to define all the rules and patterns:
+6. **Deduplication & Output**
+   The tool removes duplicates and outputs the final wordlist either to the terminal or to a file.
 
-```jsonc
+
+
+## ⚙️ Configuration JSON: How It Works
+
+Your `config.json` defines the rules and patterns that drive the generation process. Each key in the config corresponds to a building block:
+
+* `base_words`: defines the `{custom_word}` placeholder.
+* `case_variants`: controls how case variants will be applied (lowercase, uppercase, title case).
+* `separators`: defines possible separator characters to insert between parts when `{separators}` is used in patterns.
+* `decorations`: defines common special characters and numeric sequences used in passwords.
+* `seasons`, `quarters`: define lists of seasons and quarters for use in patterns.
+* `patterns`: this is the heart of the config — patterns define how final passwords are built using placeholders.
+* `transformations`: defines leetspeak mappings to apply when `--leet` is used.
+* `policy_requirements`: defines which rules to enforce when `--enforce-policy` is enabled.
+
+### Supported Placeholders
+
+| Placeholder       | Meaning                                        |
+| ----------------- | ---------------------------------------------- |
+| `{custom_word}`   | Each base word you provide                     |
+| `{word_lc}`       | Lowercase version of final password            |
+| `{word_uc}`       | Uppercase version of final password            |
+| `{word_tc}`       | Title Case version of final password           |
+| `{year}`          | Current year and N-1 previous years            |
+| `{quarter}`       | Q1, Q2, etc.                                   |
+| `{season}`        | Seasonal terms (Spring, Summer, etc.)          |
+| `{special_chars}` | Special characters defined in config           |
+| `{num_seq}`       | Common numeric sequences defined in config     |
+| `{separators}`    | Separators between parts (if used in patterns) |
+
+
+
+## Example Configuration JSON
+
+```json
 {
-  "base_words": ["{custom_word}"],             //Base word -> User supplied words like company name, admin keywords, username, etc. 
-
-  "case_variants": [                           //Type of password variants which will be included in the generation of the password list
-    "{word_lc}",                               // lowercase passwords format (e.g., "admin")
-    "{word_uc}",                               // uppercase passwords format (e.g., "ADMIN")
-    "{word_tc}"                                // title case password formats (e.g., "Admin")
-  ],
-
-  "separators": ["", "-", "_", "."],      // Array<string>: joiners between segments. For instance {custom_word}{seperators}{year}
-
-  "decorations": {                              // Object with two arrays:
-    "special_chars": ["!","@","#","$","%","&","*"],  //Array of special characters used in the password list
-    "num_seq":       ["001","007","123","321","1"]       // Array of common numeric sequences used in passwords
+  "base_words": ["{custom_word}"],
+  "case_variants": ["{word_lc}", "{word_uc}", "{word_tc}"],
+  "separators": ["", "-", "_", "."],
+  "decorations": {
+    "special_chars": ["!", "@", "#", "$", "%", "&", "*"],
+    "num_seq": ["001", "007", "123", "321", "1"]
   },
-
-  "seasons": ["Spring","Summer","Autumn","Winter"],  // Array<string>: seasonal markers
-  "quarters": ["Q1","Q2","Q3","Q4","q1","q2"],                // Array<string>: fiscal quarters
-
-// Patterns used to construct the passwords
-  "patterns": {                                 //Definition of simple password patterns
-    "simple":    [                               // e.g., "{custom_word}", "{custom_word}{special_chars}"...
+  "seasons": ["Spring", "Summer", "Autumn", "Winter"],
+  "quarters": ["Q1", "Q2", "Q3", "Q4", "q1", "q2"],
+  "patterns": {
+    "simple": [
       "{custom_word}",
       "{custom_word}{special_chars}",
       "{custom_word}{num_seq}",
@@ -73,13 +87,14 @@ Below is the base configuration json file which is used to define all the rules 
       "{custom_word}{num_seq}",
       "{custom_word}{special_chars}{special_chars}"
     ],
-    "year": [                                   // templates using {year}
+    "year": [
       "{custom_word}{year}",
       "{custom_word}{year}{special_chars}",
       "{custom_word}{year}{num_seq}",
       "{custom_word}{year}{special_chars}{num_seq}",
       "{custom_word}{special_chars}{year}",
-      "{custom_word}{num_seq}{year}"
+      "{custom_word}{num_seq}{year}",
+      "{custom_word}{separators}{year}"
     ],
     "quarter": [
       "{custom_word}{quarter}",
@@ -95,24 +110,35 @@ Below is the base configuration json file which is used to define all the rules 
       "{custom_word}{season}{special_chars}",
       "{custom_word}{season}{special_chars}{num_seq}",
       "{custom_word}{season}{year}{special_chars}",
-      "{custom_word}{special_chars}{season}{year}"
+      "{custom_word}{special_chars}{season}{year}",
+      "{custom_word}{separators}{season}{separators}{year}"
     ]
   },
-
-  "transformations": {                        // Object<string, Array<string>>: leet speak mappings
-    "a": ["@","4"], "b": ["8"], "e": ["3"],
-    "g": ["9","6"], "i": ["1","!"], "o": ["0"],
-    "s": ["$","5"], "t": ["7"]
+  "transformations": {
+    "a": ["@", "4"],
+    "b": ["8"],
+    "e": ["3"],
+    "g": ["9", "6"],
+    "i": ["1", "!"],
+    "o": ["0"],
+    "s": ["$", "5"],
+    "t": ["7"]
   },
-
-  "policy_requirements": ["uppercase","number","special"] // Array<string>: enforceable checks
+  "policy_requirements": ["uppercase", "number", "special"]
 }
 ```
-## Installation & Setup
+
+---
+
+## 🚀 Installation & Setup
+
 ```bash
 git clone https://github.com/your-org/generate-wordlist.git
+cd generate-wordlist
 ```
-## Quick Start
+
+## ⚡ Quick Start Example
+
 ```bash
 python3 generate_wordlist.py \
   --config config.json \
@@ -123,28 +149,38 @@ python3 generate_wordlist.py \
   --enforce-policy \
   --output passwords.txt
 ```
-    --leet: full combinatorial leet substitutions
 
-    --enforce-policy: filter by uppercase, digits, special
-## Usage Examples
+### Key Options:
+
+* `--leet`: Enable full leetspeak transformation.
+* `--enforce-policy`: Enforce policy requirements (uppercase, number, special).
+* `--years N`: Include current and N-1 previous years in `{year}` placeholder.
+
+
+
+## 🌟 Usage Examples
+
 **Admin-focused list**
+
 ```bash
 python3 generate_wordlist.py --words admin --leet --enforce-policy --output admin_pwds.txt
 ```
+
 **Employee names from file, no leet**
+
 ```bash
 python3 generate_wordlist.py --input employees.txt --years 1 --output employees_list.txt
 ```
 
-## Tips & Best Practices
 
-- Tune patterns: remove unused sections to speed up generation.
 
-- Limit years: fewer --years reduces combinatorial size.
+## 💡 Tips & Best Practices
 
-- Filter early: use --minlen/--maxlen and --enforce-policy to prune.
-
-- Combine wordlists: merge with common passwords for hybrid attacks.
+* Tune your `patterns`: Keep only those relevant for your target environment to avoid unnecessary combinations.
+* Use smaller `--years` to reduce output size.
+* Filter early: Apply `--minlen`, `--maxlen`, and `--enforce-policy` to produce cleaner results.
+* Combine with known wordlists: You can merge Passpwn’s output with standard password lists for hybrid attacks.
+* **Test the results**: Use in tools like Hydra, Ncrack, or Burp Suite.
 
 
 
