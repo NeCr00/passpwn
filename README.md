@@ -68,15 +68,28 @@ Your `config.json` defines the rules and patterns that drive the generation proc
 
 ```json
 {
+  // Base words placeholder (user supplied words through CLI or input file)
   "base_words": ["{custom_word}"],
+
+  // Case variants to apply to the final password (lowercase, uppercase, titlecase)
   "case_variants": ["{word_lc}", "{word_uc}", "{word_tc}"],
+
+  // Separators to use when {separators} placeholder is used in patterns
   "separators": ["", "-", "_", "."],
+
+  // Decorations: special characters and number sequences commonly used in passwords
   "decorations": {
     "special_chars": ["!", "@", "#", "$", "%", "&", "*"],
     "num_seq": ["001", "007", "123", "321", "1"]
   },
+
+  // Seasonal tokens to be used with {season} placeholder
   "seasons": ["Spring", "Summer", "Autumn", "Winter"],
+
+  // Fiscal quarters to be used with {quarter} placeholder
   "quarters": ["Q1", "Q2", "Q3", "Q4", "q1", "q2"],
+
+  // Patterns that define how passwords are constructed using placeholders
   "patterns": {
     "simple": [
       "{custom_word}",
@@ -114,6 +127,8 @@ Your `config.json` defines the rules and patterns that drive the generation proc
       "{custom_word}{separators}{season}{separators}{year}"
     ]
   },
+
+  // Leetspeak transformations applied if --leet flag is used
   "transformations": {
     "a": ["@", "4"],
     "b": ["8"],
@@ -124,9 +139,12 @@ Your `config.json` defines the rules and patterns that drive the generation proc
     "s": ["$", "5"],
     "t": ["7"]
   },
+
+  // Password policy requirements enforced if --enforce-policy flag is used
   "policy_requirements": ["uppercase", "number", "special"]
 }
 ```
+
 
 ---
 
