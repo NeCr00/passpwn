@@ -10,7 +10,7 @@ It is designed for:
 
 
 
-## 🛠 How It Works
+##  How It Works
 
 Passpwn automates the generation of passwords using patterns and rules you define in a configuration file:
 
@@ -130,14 +130,14 @@ Your `config.json` defines the rules and patterns that drive the generation proc
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ```bash
 git clone https://github.com/your-org/generate-wordlist.git
 cd generate-wordlist
 ```
 
-## ⚡ Quick Start Example
+## Quick Start Example
 
 ```bash
 python3 generate_wordlist.py \
@@ -158,7 +158,7 @@ python3 generate_wordlist.py \
 
 
 
-## 🌟 Usage Examples
+## Usage Examples
 
 **Admin-focused list**
 
