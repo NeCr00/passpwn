@@ -70,7 +70,9 @@ Your `config.json` defines the rules and patterns that drive the generation proc
 {
   // Base words placeholder (user supplied words through CLI or input file)
   "base_words": ["{custom_word}"], // Dont edit this placeholder
+
 -----------------------------------------------------------------------------------
+
   // Case variants to apply to the final password (lowercase, uppercase, titlecase)
   "case_variants": ["{word_lc}", "{word_uc}", "{word_tc}"],
 
