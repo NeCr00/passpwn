@@ -335,9 +335,3 @@ You captured hashes, lockouts aren't a concern, throw everything.
   --max-spray 0 --max-per-user 1000 \
   --out-spray spray.txt --out-user-pass user_pass.txt
 ```
-
-<div align="center">
-
-Design spec: [`docs/superpowers/specs/2026-05-24-passpwn-design.md`](docs/superpowers/specs/2026-05-24-passpwn-design.md)
-
-</div>
