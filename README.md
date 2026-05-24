@@ -19,8 +19,6 @@
 
 Both lists are sorted **most-likely-first** so that limited attempts (think: 3 tries per account before lockout) hit the highest-probability candidates.
 
-It is **not** a cracking tool, not a sprayer, and does not perform any network activity. Hand the output to `hydra`, `kerbrute`, `crackmapexec`, `hashcat`, `john`, etc. (see [Integrating with downstream tools](#integrating-with-downstream-tools)).
-
 ---
 
 ## Why This Approach Works
