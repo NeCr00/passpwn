@@ -2,8 +2,6 @@
 
 # `passpwn`
 
-**Targeted password wordlist generator for authorized penetration tests.**
-
 *Builds spray-ready and per-user wordlists from a target's own context — ranked by patterns observed in real-world breach data.*
 
 </div>
